@@ -366,8 +366,9 @@ body {
 }
 
 @media (max-width: 480px) {
+  /* Одна колонка для мобильных, чтобы открытые карточки оставались в ленте */
   .pockets-grid { grid-template-columns: 1fr; max-width: 320px; }
-  .pocket { height: 220px; }
+  .pocket { height: 215px; }
   .hero { padding-bottom: 4rem; }
   .main-title { line-height: 1.3; }
 }
@@ -486,7 +487,10 @@ pockets.forEach((p, i) => {
         <button class="open-btn" onclick="openModal(${i}); event.stopPropagation();">Подробнее</button>
       </div>
     </div>`;
-  el.onclick = () => el.classList.toggle('open');
+  
+  // ИЗМЕНЕНИЕ: Используем classList.add вместо toggle, чтобы карточка не закрывалась
+  el.onclick = () => el.classList.add('open');
+  
   grid.appendChild(el);
 });
 
@@ -525,7 +529,6 @@ function openModal(i) {
 function closeModal() {
   document.getElementById('modal').classList.add('hidden');
   document.body.style.overflow = '';
-  // Музыка продолжает играть при закрытии модального окна
 }
 
 function toggleMusic(src, i) {
@@ -613,7 +616,6 @@ function createBalloon() {
   const id = 'bg' + Math.random().toString(36).slice(2);
   const g = document.createElementNS(SVGNS,'g');
   
-  // Аппаратное ускорение для мобильных
   g.style.willChange = 'transform, opacity';
   
   const defs = document.createElementNS(SVGNS,'defs');
@@ -649,11 +651,11 @@ let prevTs = 0;
   for (const b of balloons) {
     b.t += dt;
     const prog = (b.t % b.speed) / b.speed;
+    // Обновляем расчет y с учетом текущей высоты окна для мобильных
     const y = H + 50 - prog * (H + b.bh + b.strLen + 150);
     const x = (b.startX % W) + Math.sin(b.phase + b.t*.3) * b.sway;
     const op = prog < .1 ? prog/.1 : prog > .9 ? (1-prog)/.1 : 1;
     
-    // Плавная анимация через translate3d
     b.g.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
     b.g.style.opacity = op.toFixed(3);
   }
