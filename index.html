@@ -215,7 +215,7 @@ body {
   transition: opacity 0.4s ease, visibility 0.4s;
 }
 
-/* Исправление: при открытии полностью убираем видимость передней части */
+/* При открытии полностью убираем видимость передней части */
 .pocket.open .pocket-front {
   opacity: 0;
   visibility: hidden;
@@ -273,6 +273,10 @@ body {
 .fw-section {
   text-align: center;
   padding: 2rem 1rem 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .fw-btn {
@@ -287,6 +291,15 @@ body {
   border-radius: 50px;
   box-shadow: 0 10px 30px rgba(196,77,255,.4);
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.fw-btn:active { transform: scale(0.95); }
+
+.open-all-btn {
+  display: none; /* Появится после фейерверка */
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  animation: rise-in 0.5s ease forwards;
 }
 
 /* MODAL */
@@ -366,7 +379,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  /* Одна колонка для мобильных, чтобы открытые карточки оставались в ленте */
   .pockets-grid { grid-template-columns: 1fr; max-width: 320px; }
   .pocket { height: 215px; }
   .hero { padding-bottom: 4rem; }
@@ -402,6 +414,7 @@ body {
 
 <section class="fw-section">
   <button class="fw-btn" onclick="launchFireworks()">Запустить фейерверк</button>
+  <button id="open-all-btn" class="fw-btn open-all-btn" onclick="openAllPockets()">Открыть ВСЕ карточки</button>
 </section>
 
 <div class="modal-overlay hidden" id="modal" onclick="if(event.target===this) closeModal()">
@@ -488,9 +501,8 @@ pockets.forEach((p, i) => {
       </div>
     </div>`;
   
-  // ИЗМЕНЕНИЕ: Используем classList.add вместо toggle, чтобы карточка не закрывалась
+  // При нажатии карточка открывается и остается открытой
   el.onclick = () => el.classList.add('open');
-  
   grid.appendChild(el);
 });
 
@@ -552,6 +564,11 @@ function toggleMusic(src, i) {
   }
 }
 
+function openAllPockets() {
+  const all = document.querySelectorAll('.pocket');
+  all.forEach(p => p.classList.add('open'));
+}
+
 /* CONFETTI & FIREWORKS */
 const CC = document.getElementById('confetti-canvas');
 const cc = CC.getContext('2d');
@@ -582,6 +599,8 @@ function launchFireworks() {
       for(let j=0; j<60; j++) pieces.push(mkP(x, y, true));
     }, i*280);
   }
+  // Показываем кнопку "Открыть все"
+  document.getElementById('open-all-btn').style.display = 'inline-block';
 }
 
 (function anim() {
@@ -651,7 +670,6 @@ let prevTs = 0;
   for (const b of balloons) {
     b.t += dt;
     const prog = (b.t % b.speed) / b.speed;
-    // Обновляем расчет y с учетом текущей высоты окна для мобильных
     const y = H + 50 - prog * (H + b.bh + b.strLen + 150);
     const x = (b.startX % W) + Math.sin(b.phase + b.t*.3) * b.sway;
     const op = prog < .1 ? prog/.1 : prog > .9 ? (1-prog)/.1 : 1;
