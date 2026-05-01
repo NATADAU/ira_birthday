@@ -25,6 +25,7 @@ body {
   font-family: 'Manrope', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #confetti-canvas {
@@ -42,7 +43,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem 1.5rem 5rem;
+  padding: 1rem;
   overflow: hidden;
   background:
     radial-gradient(ellipse 80% 60% at 15% 55%, #3a0060 0%, transparent 70%),
@@ -51,73 +52,53 @@ body {
     var(--bg);
 }
 
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,.04) 1px, transparent 1px);
-  background-size: 44px 44px;
-  pointer-events: none;
-}
-
-#balloons-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: visible;
-}
-
 .title-block {
   position: relative;
   z-index: 2;
-  padding: 20px 0;
+  width: 100%;
+  max-width: 90vw;
 }
 
 .eyebrow {
-  font-size: clamp(.75rem, 2.5vw, 1rem);
+  font-size: clamp(.7rem, 2vw, .9rem);
   font-weight: 800;
   letter-spacing: .35em;
   text-transform: uppercase;
   color: var(--cyan);
   opacity: 0;
   animation: rise-in .8s .1s ease forwards;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .main-title {
-  /* Изменен шрифт на Montserrat/Helvetica */
-  font-family: 'Montserrat', 'Helvetica', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 900;
-  font-size: clamp(2rem, 8vw, 5.5rem);
-  line-height: 1.1;
+  font-size: clamp(1.8rem, 7vw, 5rem);
+  line-height: 1.2;
   background: linear-gradient(130deg, var(--yellow) 0%, var(--pink) 45%, var(--purple) 80%, var(--cyan) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 30px rgba(255,107,157,.2));
   opacity: 0;
   animation: rise-in .9s .3s ease forwards;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .name-title {
-  /* Изменен шрифт на Montserrat/Helvetica */
-  font-family: 'Montserrat', 'Helvetica', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 900;
-  font-size: clamp(4rem, 15vw, 11rem);
-  line-height: 1;
+  font-size: clamp(3.5rem, 14vw, 10rem);
+  line-height: 1.1;
   background: linear-gradient(130deg, var(--pink), var(--yellow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 50px rgba(255,217,61,.4));
+  filter: drop-shadow(0 10px 30px rgba(255,107,157,0.3));
   animation: rise-in .9s .5s ease both, glow-pulse 4s 1.5s ease-in-out infinite;
   text-transform: uppercase;
-  letter-spacing: -0.04em;
-  margin-top: 0.5rem;
+  letter-spacing: -0.03em;
+  margin-top: 0.2rem;
 }
 
 .scroll-cue {
@@ -134,22 +115,22 @@ body {
 }
 
 .scroll-cue span {
-  font-size: .72rem;
-  letter-spacing: .25em;
+  font-size: .65rem;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.28);
+  color: rgba(255,255,255,.3);
 }
 
 .chevron {
-  width: 18px; height: 18px;
-  border-right: 2px solid rgba(255,255,255,.22);
-  border-bottom: 2px solid rgba(255,255,255,.22);
+  width: 14px; height: 14px;
+  border-right: 2px solid rgba(255,255,255,.2);
+  border-bottom: 2px solid rgba(255,255,255,.2);
   transform: rotate(45deg);
   animation: bounce-y 2s ease-in-out infinite;
 }
 
 .pockets-section {
-  padding: 4rem 1.25rem 6rem;
+  padding: 4rem 1rem 6rem;
   background:
     radial-gradient(ellipse 100% 40% at 50% 0%, #1e0040 0%, transparent 80%),
     var(--bg);
@@ -157,402 +138,223 @@ body {
 
 .section-head {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .section-head h2 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-size: clamp(1.6rem, 5vw, 3rem);
   background: linear-gradient(130deg, var(--yellow), var(--pink));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-}
-
-.section-head p {
-  margin-top: .5rem;
-  color: rgba(255,255,255,.38);
-  font-size: .9rem;
-  line-height: 1.6;
 }
 
 .pockets-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.1rem;
+  gap: 1.2rem;
   max-width: 1120px;
   margin: 0 auto;
 }
 
 .pocket {
-  perspective: 1200px;
-  height: 215px;
+  perspective: 1500px;
+  height: 230px;
   cursor: pointer;
-  --c1: #ff6b9d;
-  --c2: #c44dff;
+  -webkit-perspective: 1500px;
 }
 
 .pocket-inner {
   width: 100%; height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform .72s cubic-bezier(.4,0,.2,1);
-  will-change: transform;
+  -webkit-transform-style: preserve-3d;
+  transition: transform .8s cubic-bezier(.34, 1.56, .64, 1);
 }
 
-.pocket.open .pocket-inner { transform: rotateY(180deg); }
+.pocket.open .pocket-inner { 
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
 
 .pocket-face {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: 18px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 1.25rem 1rem;
+  padding: 1.5rem 1rem;
+  overflow: hidden; /* Важно: скрываем всё, что может вылезать */
 }
 
 .pocket-front {
   background: rgba(255,255,255,.07);
   border: 1.5px solid rgba(255,255,255,.1);
-  backdrop-filter: blur(12px);
-  overflow: hidden;
-  transition: border-color .35s, box-shadow .35s;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 2;
+  transform: translateZ(1px); /* Фикс для iOS */
 }
 
-.pocket-front::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--c1), var(--c2));
-  opacity: 0;
-  transition: opacity .4s;
-  border-radius: inherit;
-}
-
-.pocket:hover .pocket-front::before { opacity: .13; }
-
-.pocket:hover .pocket-front {
-  border-color: var(--c1);
-  box-shadow: 0 0 28px rgba(255,255,255,.12);
+/* При открытии скрываем контент лицевой стороны полностью */
+.pocket.open .pocket-front * {
+  visibility: hidden;
 }
 
 .pocket-symbol {
-  width: 52px; height: 52px;
+  width: 50px; height: 50px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--c1), var(--c2));
-  margin-bottom: .85rem;
-  flex-shrink: 0;
-  position: relative; z-index: 1;
-  box-shadow: 0 4px 18px rgba(255,255,255,.18);
-  transition: transform .3s ease;
+  margin-bottom: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: transform .3s;
 }
-
-.pocket:hover .pocket-symbol { transform: scale(1.1) rotate(-6deg); }
 
 .pocket-label {
-  font-size: .93rem;
+  font-size: .9rem;
   font-weight: 700;
-  color: rgba(255,255,255,.88);
-  line-height: 1.45;
-  position: relative; z-index: 1;
-}
-
-.pocket-hint {
-  font-size: .7rem;
-  color: rgba(255,255,255,.28);
-  margin-top: .35rem;
-  letter-spacing: .05em;
-  position: relative; z-index: 1;
+  color: #fff;
+  text-align: center;
 }
 
 .pocket-back {
   background: linear-gradient(135deg, var(--c1), var(--c2));
-  transform: rotateY(180deg);
-  padding: 1.25rem 1rem 1rem;
+  transform: rotateY(180deg) translateZ(1px);
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+  text-align: left;
   justify-content: flex-start;
-  gap: .4rem;
-  overflow-y: auto;
-}
-
-.back-kicker {
-  font-size: .6rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.55);
-  margin-bottom: .15rem;
-  flex-shrink: 0;
+  padding: 1.2rem;
+  color: #fff;
 }
 
 .back-msg {
-  font-size: .86rem;
+  font-size: .85rem;
   font-weight: 600;
-  color: #fff;
-  line-height: 1.65;
-  white-space: pre-line;
-  flex: 1;
+  line-height: 1.6;
+  margin-bottom: auto;
+  overflow-y: auto;
 }
 
 .open-btn {
-  margin-top: .6rem;
-  background: rgba(0,0,0,.18);
-  border: 1px solid rgba(255,255,255,.28);
+  width: 100%;
+  padding: .6rem;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
   color: #fff;
-  font-family: 'Manrope', sans-serif;
-  font-size: .75rem;
   font-weight: 700;
-  letter-spacing: .1em;
-  padding: .4rem 1rem;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background .2s;
-  flex-shrink: 0;
+  font-size: .75rem;
+  text-transform: uppercase;
+  margin-top: 10px;
 }
-
-.open-btn:hover { background: rgba(0,0,0,.3); }
 
 .fw-section {
   text-align: center;
-  padding: 1rem 1rem 8rem; /* Увеличен нижний отступ, так как это теперь финал */
+  padding: 2rem 1rem 6rem;
 }
 
 .fw-btn {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
   text-transform: uppercase;
-  font-size: 1.2rem;
-  letter-spacing: 0.05em;
-  padding: 1.2rem 2.8rem;
+  font-size: 1rem;
+  padding: 1.2rem 2.5rem;
   background: linear-gradient(135deg, var(--pink), var(--purple));
   color: #fff;
   border: none;
-  border-radius: 60px;
-  cursor: pointer;
-  box-shadow: 0 0 35px rgba(196,77,255,.32);
-  transition: transform .2s, box-shadow .2s;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(196,77,255,.4);
 }
 
-.fw-btn:hover { transform: scale(1.05); box-shadow: 0 0 55px rgba(196,77,255,.5); }
-.fw-btn:active { transform: scale(.97); }
-
+/* MODAL */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.82);
+  background: rgba(0,0,0,.9);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  z-index: 1000;
-  backdrop-filter: blur(8px);
-  animation: fade-in .22s ease;
+  z-index: 2000;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .modal-overlay.hidden { display: none; }
 
 .modal-box {
   background: #1c0638;
-  border: 1.5px solid rgba(255,255,255,.12);
-  border-radius: 22px;
-  padding: 2rem 1.5rem 1.75rem;
-  max-width: 480px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 24px;
+  padding: 2rem 1.5rem;
+  max-width: 450px;
   width: 100%;
   position: relative;
-  animation: pop-in .33s cubic-bezier(.34,1.56,.64,1);
-  max-height: 92svh;
+  max-height: 90vh;
   overflow-y: auto;
-}
-
-.modal-close {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
-  color: rgba(255,255,255,.55);
-  font-size: .9rem;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s;
-}
-
-.modal-close:hover { background: rgba(255,255,255,.16); }
-
-.modal-dot {
-  width: 42px; height: 42px;
-  border-radius: 50%;
-  margin: 0 auto 1rem;
 }
 
 .modal-title {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  text-transform: uppercase;
-  font-size: 1.4rem;
-  background: linear-gradient(130deg, var(--yellow), var(--pink));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 1.3rem;
   text-align: center;
-  margin-bottom: .7rem;
-}
-
-.modal-text {
-  font-size: .9rem;
-  color: rgba(255,255,255,.75);
-  line-height: 1.8;
-  text-align: center;
-  margin-bottom: 1.25rem;
-  white-space: pre-line;
+  margin-bottom: 1rem;
+  color: var(--yellow);
 }
 
 .photo-drop {
   width: 100%;
-  height: 260px;
-  border-radius: 13px;
-  border: 1.5px dashed rgba(255,255,255,.16);
-  background: rgba(255,255,255,.04);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: .35rem;
-  color: rgba(255,255,255,.32);
-  font-size: .78rem;
-  cursor: pointer;
-  position: relative;
+  aspect-ratio: 4/3;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
   overflow: hidden;
-  margin-bottom: 1rem;
-  transition: border-color .25s;
 }
-
-.photo-drop:hover { border-color: var(--pink); }
 
 .photo-drop img {
-  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-}
-
-.music-player {
-  background: rgba(255,255,255,.06);
-  border-radius: 13px;
-  padding: .85rem .95rem;
-  display: flex;
-  align-items: center;
-  gap: .8rem;
-  margin-bottom: .6rem;
-}
-
-.play-btn {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--pink), var(--purple));
-  border: none;
-  color: #fff;
-  font-size: .95rem;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 4px 14px rgba(196,77,255,.32);
-}
-
-.play-btn:hover { transform: scale(1.1); }
-
-.music-meta { flex: 1; min-width: 0; }
-
-.music-name {
-  font-weight: 700;
-  color: #fff;
-  font-size: .86rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.music-status {
-  font-size: .72rem;
-  color: rgba(255,255,255,.38);
-  margin-top: .18rem;
-}
-
-.progress-wrap {
-  height: 3px;
-  background: rgba(255,255,255,.09);
-  border-radius: 3px;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  position: relative;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--pink), var(--purple));
-  border-radius: 3px;
-  width: 0%;
-  transition: width .1s linear;
-  pointer-events: none;
-}
-
-.sparkle {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  animation: sparkle-out .7s ease-out forwards;
 }
 
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(28px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes glow-pulse {
-  0%,100% { filter: drop-shadow(0 0 60px rgba(255,217,61,.45)); }
-  50% { filter: drop-shadow(0 0 100px rgba(255,107,157,.62)); }
+  0%,100% { filter: drop-shadow(0 0 20px rgba(255,217,61,0.3)); }
+  50% { filter: drop-shadow(0 0 40px rgba(255,107,157,0.5)); }
 }
 
 @keyframes bounce-y {
   0%,100% { transform: rotate(45deg) translate(0,0); }
-  50% { transform: rotate(45deg) translate(3px,3px); }
+  50% { transform: rotate(45deg) translate(4px,4px); }
 }
 
-@keyframes fade-in { from { opacity:0; } to { opacity:1; } }
-@keyframes pop-in { from { transform: scale(.8); opacity:0; } to { transform: scale(1); opacity:1; } }
-
-@keyframes sparkle-out {
-  0% { opacity:1; transform: translate(0,0) scale(1); }
-  100% { opacity:0; transform: translate(var(--dx), var(--dy)) scale(0); }
+/* RESPONSIVE FIXES */
+@media (max-width: 1024px) {
+  .pockets-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media (max-width: 900px) {
-  .pockets-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 768px) {
+  .pockets-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .pocket { height: 210px; }
 }
 
-@media (max-width: 600px) {
-  .pockets-grid { grid-template-columns: 1fr 1fr; gap: .8rem; }
-  .pocket { height: 190px; }
-  .pocket-symbol { width: 42px; height: 42px; }
-  .pocket-label { font-size: .82rem; }
-  .pocket-hint { display: none; }
-  .modal-box { padding: 1.5rem 1rem 1.4rem; }
-  .photo-drop { height: 210px; }
-}
-
-@media (max-width: 360px) {
-  .pockets-grid { grid-template-columns: 1fr; }
-  .pocket { height: 155px; }
+@media (max-width: 480px) {
+  /* Одна колонка для удобного скролла вниз */
+  .pockets-grid { grid-template-columns: 1fr; max-width: 320px; }
+  .pocket { height: 200px; }
+  .hero { padding-bottom: 4rem; }
+  .main-title { letter-spacing: -0.01em; }
 }
 </style>
 </head>
@@ -562,14 +364,14 @@ body {
 <canvas id="confetti-canvas"></canvas>
 
 <section class="hero">
-  <svg id="balloons-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  <svg id="balloons-svg" xmlns="http://www.w3.org/2000/svg" style="position:absolute; inset:0; pointer-events:none;"></svg>
   <div class="title-block">
     <p class="eyebrow">Сегодня особенный день</p>
     <h1 class="main-title">С Днём Рождения,</h1>
     <h1 class="name-title">Ира!</h1>
   </div>
   <div class="scroll-cue">
-    <span>Открывай</span>
+    <span>Листай вниз</span>
     <div class="chevron"></div>
   </div>
 </section>
@@ -577,7 +379,7 @@ body {
 <section class="pockets-section">
   <div class="section-head">
     <h2>Для тебя с любовью</h2>
-    <p>Нажми на кармашек — внутри тебя кое-что ждёт</p>
+    <p>Нажми на карточку, чтобы перевернуть её</p>
   </div>
   <div class="pockets-grid" id="pockets-grid"></div>
 </section>
@@ -586,16 +388,13 @@ body {
   <button class="fw-btn" onclick="launchFireworks()">Запустить фейерверк</button>
 </section>
 
-<!-- Все блоки после фейерверка удалены -->
-
-<div class="modal-overlay hidden" id="modal" onclick="handleOverlayClick(event)">
-  <div class="modal-box" id="modal-box">
-    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
-    <div class="modal-dot" id="modal-dot"></div>
+<div class="modal-overlay hidden" id="modal" onclick="if(event.target===this) closeModal()">
+  <div class="modal-box">
+    <button style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;" onclick="closeModal()">✕</button>
     <div class="modal-title" id="modal-title"></div>
-    <div class="modal-text" id="modal-text"></div>
-    <div id="modal-photo"></div>
-    <div id="modal-music"></div>
+    <div id="modal-photo" class="photo-drop"></div>
+    <div id="modal-text" style="color:rgba(255,255,255,0.8); line-height:1.7; text-align:center;"></div>
+    <div id="modal-music" style="margin-top:20px;"></div>
   </div>
 </div>
 
@@ -603,61 +402,53 @@ body {
 const pockets = [
   {
     label: 'Королева стиля',
-    hint: 'Открыть сюрприз',
     c1: '#ff6b9d', c2: '#c44dff',
-    msg: 'Ты не следуешь стилю — ты его задаёшь. В тебе есть вкус, уверенность и красота, которую невозможно не заметить.',
+    msg: 'Ты не следуешь стилю — ты его задаёшь. В тебе есть вкус, уверенность и красота.',
     photoUrl: 'image1.jpg',
     musicUrl: 'song1.mp3',
     musicName: 'Песня для королевы'
   },
   {
-    label: 'Осторожно! Здесь накормят!',
-    hint: 'Загляни внутрь',
+    label: 'Вкус жизни',
     c1: '#ffd93d', c2: '#ff8c42',
-    msg: 'Ты умеешь кормить так, что человек чувствует не просто вкус, а заботу. Рядом с тобой всегда тепло, щедро и по-домашнему.',
+    msg: 'Рядом с тобой всегда тепло, щедро и по-домашнему. Ты умеешь создавать уют.',
     photoUrl: 'image2.jpg'
   },
   {
     label: 'Армянское солнце',
-    hint: 'Только для тебя',
     c1: '#ff8c42', c2: '#ff6b9d',
-    msg: 'В тебе есть южное тепло, характер, щедрая душа. Это чувствуется сразу.',
+    msg: 'В тебе есть южное тепло, характер и особенная душа. Это чувствуется сразу.',
     photoUrl: 'image3.jpg'
   },
   {
     label: 'Королева дороги',
-    hint: 'Поехали',
     c1: '#4dd9ff', c2: '#c44dff',
-    msg: 'Ты за рулём — это гармония контроля, уверенности и красоты движения. Пусть все дороги ведут туда, где тебе хорошо.',
+    msg: 'Ты за рулём — это уверенность и стиль. Пусть все дороги ведут к счастью.',
     photoUrl: 'image4.jpg'
   },
   {
     label: 'Душа компании',
-    hint: 'Открыть настроение',
     c1: '#6bcb77', c2: '#4dd9ff',
-    msg: 'Ты умеешь замечать людей, поддерживать, смешить и создавать настроение. С тобой обычный день становится праздником.',
+    msg: 'Ты умеешь поддерживать, смешить и создавать настроение. С тобой обычный день становится праздником.',
     photoUrl: 'image5.jpg',
     musicUrl: 'song2.mp3',
     musicName: 'Праздничное настроение'
   },
   {
     label: 'Письмо для тебя',
-    hint: 'Прочитать',
     c1: '#c44dff', c2: '#ff6b9d',
-    msg: 'Ира, пусть в твоей жизни будет много красивых поводов, вкусных встреч, лёгких дорог, любимых людей и радости без причины.\n\nСпасибо, что ты такая настоящая.'
+    msg: 'Ира, пусть в жизни будет много красивых поводов и радости без причины.'
   },
   {
     label: 'Модница',
-    hint: 'Красиво всегда',
     c1: '#f472b6', c2: '#a855f7',
-    msg: 'Есть люди, которые просто надевают одежду. А есть ты — человек, который превращает образ в настроение.',
+    msg: 'Ты превращаешь любой образ в настроение. Оставайся такой же яркой!',
     photoUrl: 'image6.jpg'
   },
   {
     label: 'Самое главное',
-    hint: 'Финальный сюрприз',
     c1: '#ffd93d', c2: '#ff6b9d',
-    msg: 'Спасибо тебе за тепло, красоту, заботу, вкус жизни и ту атмосферу, которую ты создаёшь вокруг себя. С днём рождения, Ира!'
+    msg: 'Спасибо за твою красоту и заботу. Ты делаешь этот мир лучше. С днём рождения!'
   }
 ];
 
@@ -673,327 +464,131 @@ pockets.forEach((p, i) => {
       <div class="pocket-face pocket-front">
         <div class="pocket-symbol"></div>
         <div class="pocket-label">${p.label}</div>
-        <div class="pocket-hint">${p.hint}</div>
       </div>
       <div class="pocket-face pocket-back">
-        <div class="back-kicker">Сюрприз</div>
         <div class="back-msg">${p.msg}</div>
-        <button class="open-btn" data-idx="${i}">Открыть полностью</button>
+        <button class="open-btn" onclick="openModal(${i}); event.stopPropagation();">Подробнее</button>
       </div>
     </div>`;
-  el.addEventListener('click', (e) => {
-    if (e.target.classList.contains('open-btn')) {
-      e.stopPropagation();
-      openModal(+e.target.dataset.idx);
-      return;
-    }
-    el.classList.toggle('open');
-  });
+  el.onclick = () => el.classList.toggle('open');
   grid.appendChild(el);
 });
 
 const audioStore = {};
-const photoStore = {};
 let activeAudio = null;
 
 function openModal(i) {
   const p = pockets[i];
-
-  document.getElementById('modal-dot').style.background =
-    `linear-gradient(135deg,${p.c1},${p.c2})`;
   document.getElementById('modal-title').textContent = p.label;
   document.getElementById('modal-text').textContent = p.msg;
-
-  const pa = document.getElementById('modal-photo');
-
+  
+  const photoCont = document.getElementById('modal-photo');
   if (p.photoUrl) {
-    pa.innerHTML = `
-      <div class="photo-drop">
-        <img src="${p.photoUrl}" alt="">
-      </div>`;
+    photoCont.style.display = 'block';
+    photoCont.innerHTML = `<img src="${p.photoUrl}" onerror="this.parentElement.style.display='none'">`;
   } else {
-    pa.innerHTML = '';
+    photoCont.style.display = 'none';
   }
 
-  const ma = document.getElementById('modal-music');
-
+  const musicCont = document.getElementById('modal-music');
   if (p.musicUrl) {
-    ma.innerHTML = `
-      <div class="music-player">
-        <button class="play-btn" id="pbtn-${i}" onclick="togglePresetMusic('${p.musicUrl}',${i})">&#9654;</button>
-        <div class="music-meta">
-          <div class="music-name">${p.musicName || 'Музыка для тебя'}</div>
-          <div class="music-status" id="pstatus-${i}">Нажми play</div>
-        </div>
-      </div>
-      <div class="progress-wrap" onclick="seekAudio(event,${i})">
-        <div class="progress-fill" id="pfill-${i}"></div>
+    musicCont.innerHTML = `
+      <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:15px; display:flex; align-items:center; gap:15px;">
+        <button id="pbtn-${i}" onclick="toggleMusic('${p.musicUrl}', ${i})" style="width:40px; height:40px; border-radius:50%; border:none; background:var(--pink); color:#fff; cursor:pointer;">▶</button>
+        <span style="color:#fff; font-size:0.8rem;">${p.musicName}</span>
       </div>`;
   } else {
-    ma.innerHTML = '';
+    musicCont.innerHTML = '';
   }
 
   document.getElementById('modal').classList.remove('hidden');
-}
-
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('modal')) closeModal();
+  document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
   document.getElementById('modal').classList.add('hidden');
-}
-
-function togglePresetMusic(src, i) {
-  if (!audioStore[i]) {
-    audioStore[i] = new Audio(src);
-
-    audioStore[i].addEventListener('timeupdate', () => {
-      const f = document.getElementById(`pfill-${i}`);
-      if (f && audioStore[i].duration) {
-        f.style.width = (audioStore[i].currentTime / audioStore[i].duration * 100) + '%';
-      }
-    });
-
-    audioStore[i].addEventListener('ended', () => {
-      const b = document.getElementById(`pbtn-${i}`);
-      if (b) b.innerHTML = '&#9654;';
-    });
+  document.body.style.overflow = '';
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio = null;
   }
-
-  togglePlay(i);
 }
 
-function togglePlay(i) {
+function toggleMusic(src, i) {
+  if (!audioStore[i]) audioStore[i] = new Audio(src);
   const audio = audioStore[i];
   const btn = document.getElementById(`pbtn-${i}`);
-  if (!audio) return;
 
   if (activeAudio && activeAudio !== audio) {
     activeAudio.pause();
-    activeAudio.currentTime = 0;
   }
 
   if (audio.paused) {
     audio.play();
-    if (btn) btn.innerHTML = '&#9646;&#9646;';
+    btn.textContent = '⏸';
     activeAudio = audio;
   } else {
     audio.pause();
-    if (btn) btn.innerHTML = '&#9654;';
+    btn.textContent = '▶';
   }
 }
 
-function seekAudio(e, i) {
-  const audio = audioStore[i];
-  if (!audio || !audio.duration) return;
-  const r = e.currentTarget.getBoundingClientRect();
-  audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
-}
-
-/* CONFETTI */
+/* CONFETTI & FIREWORKS */
 const CC = document.getElementById('confetti-canvas');
 const cc = CC.getContext('2d');
-const COLS = ['#ff6b9d','#c44dff','#ffd93d','#4dd9ff','#ff8c42','#6bcb77','#fff'];
 let pieces = [];
+const COLS = ['#ff6b9d','#c44dff','#ffd93d','#4dd9ff','#ff8c42','#fff'];
 
-function resizeCC() {
-  CC.width = window.innerWidth;
-  CC.height = window.innerHeight;
-}
+function resize() { CC.width = window.innerWidth; CC.height = window.innerHeight; }
+window.onresize = resize; resize();
 
-resizeCC();
-window.addEventListener('resize', resizeCC);
-
-function mkP(x, y, burst) {
+function mkP(x, y, b) {
   return {
-    x: x ?? Math.random() * CC.width,
-    y: y ?? -10,
-    r: Math.random() * 5 + 4,
-    col: COLS[Math.random() * COLS.length | 0],
-    vx: burst ? (Math.random()-.5)*15 : (Math.random()-.5)*1.4,
-    vy: burst ? (Math.random()-.5)*15-3 : Math.random()*2.8+1.2,
-    g: .15,
-    op: 1,
-    rot: Math.random()*Math.PI*2,
-    rs: (Math.random()-.5)*.12,
-    sh: Math.random()<.55 ? 'r' : 'c',
-    burst
+    x: x ?? Math.random()*CC.width, y: y ?? -20,
+    r: Math.random()*4+4, col: COLS[Math.random()*COLS.length|0],
+    vx: b ? (Math.random()-.5)*15 : (Math.random()-.5)*2,
+    vy: b ? (Math.random()-.5)*15-2 : Math.random()*3+2,
+    op: 1, g: 0.15, rot: Math.random()*10, b
   };
-}
-
-for (let i = 0; i < 60; i++) {
-  const p = mkP();
-  p.y = Math.random() * CC.height;
-  pieces.push(p);
 }
 
 function launchFireworks() {
-  for (let b = 0; b < 6; b++) {
+  for(let i=0; i<5; i++) {
     setTimeout(() => {
-      const bx = Math.random() * CC.width;
-      const by = Math.random() * CC.height * .55;
-      for (let j = 0; j < 60; j++) pieces.push(mkP(bx, by, true));
-    }, b * 280);
+      const x = Math.random()*CC.width;
+      const y = Math.random()*CC.height*0.6;
+      for(let j=0; j<50; j++) pieces.push(mkP(x, y, true));
+    }, i*300);
   }
 }
 
-(function animCC() {
-  cc.clearRect(0, 0, CC.width, CC.height);
-  pieces = pieces.filter(p => p.op > .01);
-
-  for (const p of pieces) {
-    p.x += p.vx;
-    p.vy += p.g;
-    p.y += p.vy;
-    p.rot += p.rs;
-
-    if (p.burst) p.op -= .012;
-    else if (p.y > CC.height + 15) p.op -= .055;
-
-    cc.save();
-    cc.globalAlpha = p.op;
-    cc.fillStyle = p.col;
-    cc.translate(p.x, p.y);
-    cc.rotate(p.rot);
-
-    if (p.sh === 'r') cc.fillRect(-p.r, -p.r*.38, p.r*2, p.r*.76);
-    else {
-      cc.beginPath();
-      cc.ellipse(0, 0, p.r*.48, p.r*.28, 0, 0, Math.PI*2);
-      cc.fill();
-    }
-
-    cc.restore();
-  }
-
-  if (pieces.length < 150 && Math.random() < .2) pieces.push(mkP());
-
-  requestAnimationFrame(animCC);
+(function anim() {
+  cc.clearRect(0,0,CC.width,CC.height);
+  pieces = pieces.filter(p => p.op > 0.01);
+  pieces.forEach(p => {
+    p.vy += p.g; p.x += p.vx; p.y += p.vy;
+    if(p.b) p.op -= 0.015;
+    cc.fillStyle = p.col; cc.globalAlpha = p.op;
+    cc.beginPath(); cc.arc(p.x, p.y, p.r/2, 0, 7); cc.fill();
+  });
+  if(pieces.length < 100 && Math.random() < 0.3) pieces.push(mkP());
+  requestAnimationFrame(anim);
 })();
 
-/* SVG BALLOONS */
-const SVGNS = 'http://www.w3.org/2000/svg';
+/* BALLOONS */
 const bSvg = document.getElementById('balloons-svg');
-
-const palettes = [['#ff6b9d','#c44dff'],['#ffd93d','#ff8c42'],['#4dd9ff','#6bcb77'],['#c44dff','#4dd9ff'],['#6bcb77','#ffd93d'],['#ff8c42','#ff6b9d']];
-
-function lighten(hex, t) {
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
-  return `rgb(${(r+(255-r)*t)|0},${(g+(255-g)*t)|0},${(b+(255-b)*t)|0})`;
+for(let i=0; i<10; i++) {
+  const e = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+  const x = Math.random()*100;
+  const s = 15 + Math.random()*15;
+  const d = Math.random()*10;
+  e.setAttribute('cx', x+'%'); e.setAttribute('cy', '110%');
+  e.setAttribute('rx', '30'); e.setAttribute('ry', '40');
+  e.setAttribute('fill', COLS[i%COLS.length]);
+  e.style.opacity = '0.4';
+  e.innerHTML = `<animateTransform attributeName="transform" type="translate" from="0 0" to="0 -1200" dur="${s}s" begin="${d}s" repeatCount="indefinite" />`;
+  bSvg.appendChild(e);
 }
-
-function createBalloon() {
-  const pal = palettes[Math.floor(Math.random()*palettes.length)];
-  const bw = 80 + Math.random()*55;
-  const bh = bw * 1.28;
-  const id = 'bg' + Math.random().toString(36).slice(2);
-
-  const g = document.createElementNS(SVGNS,'g');
-  g.style.willChange = 'transform, opacity';
-
-  const defs = document.createElementNS(SVGNS,'defs');
-  const grad = document.createElementNS(SVGNS,'radialGradient');
-  grad.id = id;
-  grad.setAttribute('cx','38%');
-  grad.setAttribute('cy','32%');
-  grad.setAttribute('r','62%');
-
-  const s1 = document.createElementNS(SVGNS,'stop');
-  s1.setAttribute('offset','0%');
-  s1.setAttribute('stop-color',lighten(pal[0],.45));
-
-  const s2 = document.createElementNS(SVGNS,'stop');
-  s2.setAttribute('offset','100%');
-  s2.setAttribute('stop-color',pal[1]);
-
-  grad.append(s1,s2);
-  defs.append(grad);
-  g.append(defs);
-
-  const body = document.createElementNS(SVGNS,'ellipse');
-  body.setAttribute('cx',0);
-  body.setAttribute('cy',0);
-  body.setAttribute('rx',bw/2);
-  body.setAttribute('ry',bh/2);
-  body.setAttribute('fill',`url(#${id})`);
-
-  const knot = document.createElementNS(SVGNS,'ellipse');
-  knot.setAttribute('cx',0);
-  knot.setAttribute('cy',bh/2+7);
-  knot.setAttribute('rx',5);
-  knot.setAttribute('ry',8);
-  knot.setAttribute('fill',pal[1]);
-
-  const sheen = document.createElementNS(SVGNS,'ellipse');
-  sheen.setAttribute('cx',-bw*.12);
-  sheen.setAttribute('cy',-bh*.14);
-  sheen.setAttribute('rx',bw*.12);
-  sheen.setAttribute('ry',bh*.09);
-  sheen.setAttribute('fill','rgba(255,255,255,0.32)');
-  sheen.setAttribute('transform','rotate(-28)');
-
-  const sc1x = (Math.random()-.5)*90;
-  const sc1y = bh*.5 + 40 + Math.random()*50;
-  const sc2x = (Math.random()-.5)*90;
-  const strLen = 100 + Math.random()*70;
-
-  const path = document.createElementNS(SVGNS,'path');
-  path.setAttribute('d',`M0,${bh/2+14} C${sc1x},${sc1y} ${sc2x},${sc1y+35} 0,${bh/2+strLen}`);
-  path.setAttribute('stroke','rgba(255,255,255,0.2)');
-  path.setAttribute('stroke-width','1.6');
-  path.setAttribute('fill','none');
-
-  g.append(path,body,knot,sheen);
-  bSvg.append(g);
-
-  const speed = 15 + Math.random()*10;
-  const sway = 20 + Math.random()*30;
-  const phase = Math.random()*Math.PI*2;
-  const startX = Math.random() * window.innerWidth;
-
-  return {
-    g, speed, sway, phase, startX, bh, strLen,
-    t: Math.random()*speed
-  };
-}
-
-const NUM_BALLOONS = 12;
-const balloons = [];
-for (let i = 0; i < NUM_BALLOONS; i++) balloons.push(createBalloon());
-
-let prevTs = 0;
-(function animBalloons(ts) {
-  const dt = Math.min((ts-prevTs)/1000, .05);
-  prevTs = ts;
-  const H = window.innerHeight;
-  for (const b of balloons) {
-    b.t += dt;
-    const prog = (b.t % b.speed) / b.speed;
-    const totalH = H + b.bh + b.strLen + 100;
-    const y = H + 50 - prog * totalH;
-    const x = b.startX + Math.sin(b.phase + b.t*.3) * b.sway;
-    const op = prog < .1 ? prog/.1 : prog > .9 ? (1-prog)/.1 : 1;
-    b.g.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
-    b.g.style.opacity = op.toFixed(3);
-  }
-  requestAnimationFrame(animBalloons);
-})(0);
-
-/* SPARKLE CURSOR */
-const SCOLS = ['#ff6b9d','#ffd93d','#4dd9ff','#c44dff','#6bcb77','#ff8c42','#fff'];
-document.addEventListener('mousemove', e => {
-  if (Math.random() > .15) return;
-  const s = document.createElement('div');
-  s.className = 'sparkle';
-  const dx = (Math.random()-.5)*44;
-  const dy = -(18+Math.random()*28);
-  s.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;background:${SCOLS[Math.random()*SCOLS.length|0]};--dx:${dx}px;--dy:${dy}px;`;
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 700);
-});
 </script>
 </body>
 </html>
