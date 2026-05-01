@@ -539,7 +539,7 @@ pockets.forEach((p, i) => {
         ${p.photoUrl ? `<img src="${p.photoUrl}" class="back-img-thumb" onclick="openModal(${i}); event.stopPropagation();" onerror="this.style.display='none'">` : ''}
         <div class="back-content-wrapper">
           <div class="back-msg">${p.msg}</div>
-          <button class="open-btn" onclick="openModal(${i}); event.stopPropagation();">Увеличить фото</button>
+          ${p.photoUrl ? `<button class="open-btn" onclick="openModal(${i}); event.stopPropagation();">Увеличить фото</button>` : ''}
         </div>
       </div>
     </div>`;
