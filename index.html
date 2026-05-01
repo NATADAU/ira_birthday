@@ -59,6 +59,7 @@ body {
   height: 100%;
   pointer-events: none;
   overflow: visible;
+  z-index: 1;
 }
 
 .title-block {
@@ -121,6 +122,7 @@ body {
   gap: .4rem;
   opacity: 0;
   animation: rise-in .6s 1.4s ease forwards;
+  z-index: 10;
 }
 
 .scroll-cue span {
@@ -210,11 +212,13 @@ body {
   -webkit-backdrop-filter: blur(10px);
   z-index: 2;
   transform: translateZ(1px);
-  transition: opacity 0.3s;
+  transition: opacity 0.4s ease, visibility 0.4s;
 }
 
+/* Исправление: при открытии полностью убираем видимость передней части */
 .pocket.open .pocket-front {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
@@ -224,7 +228,6 @@ body {
   background: linear-gradient(135deg, var(--c1), var(--c2));
   margin-bottom: 1rem;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  transition: transform .3s;
 }
 
 .pocket-label {
@@ -364,7 +367,7 @@ body {
 
 @media (max-width: 480px) {
   .pockets-grid { grid-template-columns: 1fr; max-width: 320px; }
-  .pocket { height: 215px; }
+  .pocket { height: 220px; }
   .hero { padding-bottom: 4rem; }
   .main-title { line-height: 1.3; }
 }
@@ -390,7 +393,7 @@ body {
 
 <section class="pockets-section">
   <div class="section-head">
-    <h2>Для тебя с любовью</h2>
+    <h2>Твои сюрпризы</h2>
     <p>Нажми на карточку, чтобы перевернуть её</p>
   </div>
   <div class="pockets-grid" id="pockets-grid"></div>
@@ -411,6 +414,7 @@ body {
 </div>
 
 <script>
+// Оригинальные фразы сохранены
 const pockets = [
   {
     label: 'Королева стиля',
@@ -421,7 +425,7 @@ const pockets = [
     musicName: 'Песня для королевы'
   },
   {
-    label: 'Осторожно! здесь накормят',
+    label: 'Самая вкусная кухня',
     c1: '#ffd93d', c2: '#ff8c42',
     msg: 'Ты умеешь кормить так, что человек чувствует не просто вкус, а заботу. Рядом с тобой всегда тепло, щедро и по-домашнему.',
     photoUrl: 'image2.jpg'
@@ -435,13 +439,13 @@ const pockets = [
   {
     label: 'Королева дороги',
     c1: '#4dd9ff', c2: '#c44dff',
-    msg: 'Ты за рулём — это гармония контроля, уверенности и красоты движения. Пусть все дороги ведут туда, где тебе хорошо.',
+    msg: 'Ты за рулём — это отдельный стиль. Спокойно, уверенно, красиво. Пусть все дороги ведут туда, где тебе хорошо.',
     photoUrl: 'image4.jpg'
   },
   {
     label: 'Душа компании',
     c1: '#6bcb77', c2: '#4dd9ff',
-    msg: 'Ты умеешь замечать людей, поддерживать, смешить и создавать настроение. С тобой обычный день становится праздником.',
+    msg: 'Ты умеешь замечать людей, поддерживать, смешить и создавать настроение. С тобой обычный день становится живым.',
     photoUrl: 'image5.jpg',
     musicUrl: 'song2.mp3',
     musicName: 'Праздничное настроение'
@@ -504,7 +508,6 @@ function openModal(i) {
 
   const musicCont = document.getElementById('modal-music');
   if (p.musicUrl) {
-    // Проверяем, играет ли сейчас именно эта музыка
     const isThisPlaying = activeAudio && activeAudio.src.includes(p.musicUrl) && !activeAudio.paused;
     musicCont.innerHTML = `
       <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:15px; display:flex; align-items:center; gap:15px;">
@@ -522,7 +525,7 @@ function openModal(i) {
 function closeModal() {
   document.getElementById('modal').classList.add('hidden');
   document.body.style.overflow = '';
-  // Музыка БОЛЬШЕ НЕ ПАУЗИТСЯ здесь, чтобы продолжать играть при скролле.
+  // Музыка продолжает играть при закрытии модального окна
 }
 
 function toggleMusic(src, i) {
@@ -532,7 +535,6 @@ function toggleMusic(src, i) {
 
   if (activeAudio && activeAudio !== audio) {
     activeAudio.pause();
-    // Ищем кнопку предыдущего аудио, если она есть в DOM, и меняем иконку
     const oldBtns = document.querySelectorAll('[id^="pbtn-"]');
     oldBtns.forEach(b => b.textContent = '▶');
   }
@@ -553,7 +555,10 @@ const cc = CC.getContext('2d');
 let pieces = [];
 const COLS = ['#ff6b9d','#c44dff','#ffd93d','#4dd9ff','#ff8c42','#fff'];
 
-function resize() { CC.width = window.innerWidth; CC.height = window.innerHeight; }
+function resize() { 
+  CC.width = window.innerWidth; 
+  CC.height = window.innerHeight; 
+}
 window.onresize = resize; resize();
 
 function mkP(x, y, b) {
@@ -589,7 +594,7 @@ function launchFireworks() {
   requestAnimationFrame(anim);
 })();
 
-/* BALLOONS JS - ОРИГИНАЛЬНАЯ АНИМАЦИЯ */
+/* BALLOONS JS - ОРИГИНАЛЬНАЯ АНИМАЦИЯ И ГРАДИЕНТЫ */
 const SVGNS = 'http://www.w3.org/2000/svg';
 const bSvg = document.getElementById('balloons-svg');
 const palList = [['#ff6b9d','#c44dff'],['#ffd93d','#ff8c42'],['#4dd9ff','#6bcb77'],['#c44dff','#4dd9ff'],['#6bcb77','#ffd93d'],['#ff8c42','#ff6b9d']];
@@ -607,20 +612,26 @@ function createBalloon() {
   const bh = bw * 1.28;
   const id = 'bg' + Math.random().toString(36).slice(2);
   const g = document.createElementNS(SVGNS,'g');
+  
+  // Аппаратное ускорение для мобильных
   g.style.willChange = 'transform, opacity';
+  
   const defs = document.createElementNS(SVGNS,'defs');
   const grad = document.createElementNS(SVGNS,'radialGradient');
   grad.id = id; grad.setAttribute('cx','38%'); grad.setAttribute('cy','32%'); grad.setAttribute('r','62%');
   const s1 = document.createElementNS(SVGNS,'stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color',lighten(pal[0],.45));
   const s2 = document.createElementNS(SVGNS,'stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color',pal[1]);
   grad.append(s1,s2); defs.append(grad); g.append(defs);
+  
   const body = document.createElementNS(SVGNS,'ellipse'); body.setAttribute('cx',0); body.setAttribute('cy',0); body.setAttribute('rx',bw/2); body.setAttribute('ry',bh/2); body.setAttribute('fill',`url(#${id})`);
   const knot = document.createElementNS(SVGNS,'ellipse'); knot.setAttribute('cx',0); knot.setAttribute('cy',bh/2+7); knot.setAttribute('rx',5); knot.setAttribute('ry',8); knot.setAttribute('fill',pal[1]);
   const sheen = document.createElementNS(SVGNS,'ellipse'); sheen.setAttribute('cx',-bw*.12); sheen.setAttribute('cy',-bh*.14); sheen.setAttribute('rx',bw*.12); sheen.setAttribute('ry',bh*.09); sheen.setAttribute('fill','rgba(255,255,255,0.32)'); sheen.setAttribute('transform','rotate(-28)');
+  
   const path = document.createElementNS(SVGNS,'path');
   const strLen = 100 + Math.random()*70;
   path.setAttribute('d',`M0,${bh/2+14} C${(Math.random()-.5)*90},${bh*.5+40} ${(Math.random()-.5)*90},${bh*.5+75} 0,${bh/2+strLen}`);
   path.setAttribute('stroke','rgba(255,255,255,0.2)'); path.setAttribute('stroke-width','1.6'); path.setAttribute('fill','none');
+  
   g.append(path,body,knot,sheen); bSvg.append(g);
   return { g, speed: 15+Math.random()*10, sway: 20+Math.random()*30, phase: Math.random()*Math.PI*2, startX: Math.random()*window.innerWidth, bh, strLen, t: Math.random()*20 };
 }
@@ -633,12 +644,16 @@ let prevTs = 0;
   const dt = Math.min((ts-prevTs)/1000, .05);
   prevTs = ts;
   const H = window.innerHeight;
+  const W = window.innerWidth;
+  
   for (const b of balloons) {
     b.t += dt;
     const prog = (b.t % b.speed) / b.speed;
-    const y = H + 50 - prog * (H + b.bh + b.strLen + 100);
-    const x = b.startX + Math.sin(b.phase + b.t*.3) * b.sway;
+    const y = H + 50 - prog * (H + b.bh + b.strLen + 150);
+    const x = (b.startX % W) + Math.sin(b.phase + b.t*.3) * b.sway;
     const op = prog < .1 ? prog/.1 : prog > .9 ? (1-prog)/.1 : 1;
+    
+    // Плавная анимация через translate3d
     b.g.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
     b.g.style.opacity = op.toFixed(3);
   }
