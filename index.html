@@ -181,7 +181,7 @@ body {
 
 .pocket {
   perspective: 1500px;
-  height: 350px; /* Вернули нормальную высоту для десктопа */
+  height: 350px; 
   cursor: pointer;
   -webkit-perspective: 1500px;
 }
@@ -264,21 +264,22 @@ body {
   padding: 1rem;
 }
 
+/* Центрирование текста в карточках без фото */
 .back-content-wrapper.centered-text {
   justify-content: center;
   text-align: center;
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .back-img-thumb {
   width: 100%;
-  height: 150px; /* Уменьшили для десктопа */
+  height: 150px; 
   object-fit: cover;
   object-position: top center;
   border-radius: 18px 18px 4px 4px;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   flex-shrink: 0;
-  cursor: pointer; /* Убрали 'лапку' зума на обычный курсор */
+  cursor: pointer;
 }
 
 .back-msg {
@@ -289,7 +290,6 @@ body {
   flex-grow: 1;
   overflow-y: auto;
   white-space: pre-line;
-  /* Убираем видимые стрелочки прокрутки */
   scrollbar-width: none; 
   -ms-overflow-style: none;
 }
@@ -346,7 +346,7 @@ body {
 .modal-overlay.hidden { display: none; }
 
 .modal-box {
-  background: #1c0638;
+  /* Фон будет меняться через JS */
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 28px;
   padding: 1.5rem;
@@ -357,12 +357,13 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
 .zoom-container {
   width: 100%;
   aspect-ratio: 4/5;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.2);
   border-radius: 20px;
   margin-bottom: 1.5rem;
   overflow: hidden;
@@ -376,7 +377,8 @@ body {
   width: 100%; height: 100%;
   object-fit: contain;
   transform-origin: center;
-  transition: transform 0.1s ease-out;
+  /* Анимация только для открытия, убираем ее во время движения в JS */
+  transition: transform 0.2s ease-out; 
   will-change: transform;
 }
 
@@ -386,25 +388,27 @@ body {
   font-size: 1.2rem;
   text-align: center;
   margin-bottom: 1rem;
-  color: var(--yellow);
+  color: #fff; /* Белый для лучшего контраста на цветных фонах */
   text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .modal-text-content {
-  color: rgba(255,255,255,0.9);
+  color: #fff;
   font-size: 0.95rem;
   line-height: 1.7;
   text-align: center;
   white-space: pre-line;
   padding: 0 10px;
   overflow-y: auto;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.2);
 }
 
 .close-modal-btn {
   position: absolute;
   top: 15px; right: 15px;
   width: 38px; height: 38px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.2);
   border: none;
   border-radius: 50%;
   color: #fff;
@@ -434,7 +438,7 @@ body {
 }
 
 @media (max-width: 600px) {
-  /* Мобильная версия - Идеальная */
+  /* Мобильная версия */
   .pockets-grid { grid-template-columns: 1fr; max-width: 350px; }
   .pocket { height: 480px; }
   .back-img-thumb { height: 260px; }
@@ -473,8 +477,9 @@ body {
   <button class="fw-btn" onclick="launchFireworks()">Запустить фейерверк</button>
 </section>
 
+<!-- МОДАЛЬНОЕ ОКНО С ЗУМОМ И ПАНОРАМИРОВАНИЕМ -->
 <div class="modal-overlay hidden" id="modal" onclick="if(event.target===this) closeModal()">
-  <div class="modal-box">
+  <div class="modal-box" id="modal-box">
     <button class="close-modal-btn" onclick="closeModal()">✕</button>
     <div class="modal-title" id="modal-title"></div>
     <div class="zoom-container" id="zoom-container">
@@ -547,6 +552,7 @@ pockets.forEach((p, i) => {
   el.style.setProperty('--c1', p.c1);
   el.style.setProperty('--c2', p.c2);
   
+  // Условие для центрирования карточек без фото
   const wrapperClass = !p.photoUrl ? 'back-content-wrapper centered-text' : 'back-content-wrapper';
 
   el.innerHTML = `
@@ -582,12 +588,14 @@ let isDragging = false;
 
 const modalImg = document.getElementById('modal-img');
 const zoomCont = document.getElementById('zoom-container');
+const modalBox = document.getElementById('modal-box');
 
 function updateTransform() {
   modalImg.style.transform = `translate3d(${posX}px, ${posY}px, 0) scale(${currentScale})`;
 }
 
 function resetZoom() {
+  modalImg.style.transition = 'transform 0.2s ease-out'; // Плавный сброс
   currentScale = 1; posX = 0; posY = 0;
   updateTransform();
 }
@@ -596,6 +604,9 @@ function openModal(i) {
   const p = pockets[i];
   document.getElementById('modal-title').textContent = p.label;
   document.getElementById('modal-text').textContent = p.msg;
+  
+  // Делаем модальное окно цветным в тон карточке
+  modalBox.style.background = `linear-gradient(135deg, ${p.c1}, ${p.c2})`;
   
   if (p.photoUrl) {
     zoomCont.style.display = 'block';
@@ -610,7 +621,7 @@ function openModal(i) {
     const isThisPlaying = activeAudio && activeAudio.src.includes(p.musicUrl) && !activeAudio.paused;
     musicCont.innerHTML = `
       <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:15px; display:flex; align-items:center; gap:15px;">
-        <button id="pbtn-${i}" onclick="toggleMusic('${p.musicUrl}', ${i})" style="width:40px; height:40px; border-radius:50%; border:none; background:var(--pink); color:#fff; cursor:pointer;">${isThisPlaying ? '⏸' : '▶'}</button>
+        <button id="pbtn-${i}" onclick="toggleMusic('${p.musicUrl}', ${i})" style="width:40px; height:40px; border-radius:50%; border:none; background:rgba(0,0,0,0.3); color:#fff; cursor:pointer;">${isThisPlaying ? '⏸' : '▶'}</button>
         <span style="color:#fff; font-size:0.8rem; font-weight:700;">${p.musicName}</span>
       </div>`;
   } else {
@@ -626,8 +637,9 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-// ПАНОРАМИРОВАНИЕ И ЗУМ
+// ПАНОРАМИРОВАНИЕ И ЗУМ БЕЗ МЕРЦАНИЯ
 zoomCont.addEventListener('touchstart', (e) => {
+  modalImg.style.transition = 'none'; // УБИРАЕМ АНИМАЦИЮ ВО ВРЕМЯ КАСАНИЯ
   if (e.touches.length === 2) {
     isDragging = false;
     startDist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
@@ -655,6 +667,14 @@ zoomCont.addEventListener('touchmove', (e) => {
     updateTransform();
   }
 }, { passive: false });
+
+zoomCont.addEventListener('touchend', () => {
+  isDragging = false;
+  // Можно вернуть transition, если зум сброшен до 1
+  if (currentScale === 1) {
+      modalImg.style.transition = 'transform 0.2s ease-out';
+  }
+});
 
 function toggleMusic(src, i) {
   if (!audioStore[i]) audioStore[i] = new Audio(src);
