@@ -264,11 +264,11 @@ body {
   padding: 1rem;
 }
 
-/* Центрирование текста в карточках без фото */
+/* Центрирование текста для писем без фото */
 .back-content-wrapper.centered-text {
   justify-content: center;
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 .back-img-thumb {
@@ -279,7 +279,6 @@ body {
   border-radius: 18px 18px 4px 4px;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   flex-shrink: 0;
-  cursor: pointer;
 }
 
 .back-msg {
@@ -290,6 +289,7 @@ body {
   flex-grow: 1;
   overflow-y: auto;
   white-space: pre-line;
+  /* Скрытие полос прокрутки */
   scrollbar-width: none; 
   -ms-overflow-style: none;
 }
@@ -307,7 +307,6 @@ body {
   font-size: .7rem;
   text-transform: uppercase;
   flex-shrink: 0;
-  cursor: pointer;
 }
 
 .fw-section {
@@ -346,7 +345,6 @@ body {
 .modal-overlay.hidden { display: none; }
 
 .modal-box {
-  /* Фон будет меняться через JS */
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 28px;
   padding: 1.5rem;
@@ -369,15 +367,12 @@ body {
   overflow: hidden;
   position: relative;
   touch-action: none;
-  cursor: grab;
 }
-.zoom-container:active { cursor: grabbing; }
 
 .zoom-container img {
   width: 100%; height: 100%;
   object-fit: contain;
   transform-origin: center;
-  /* Анимация только для открытия, убираем ее во время движения в JS */
   transition: transform 0.2s ease-out; 
   will-change: transform;
 }
@@ -388,7 +383,7 @@ body {
   font-size: 1.2rem;
   text-align: center;
   margin-bottom: 1rem;
-  color: #fff; /* Белый для лучшего контраста на цветных фонах */
+  color: #fff; 
   text-transform: uppercase;
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
@@ -402,7 +397,10 @@ body {
   padding: 0 10px;
   overflow-y: auto;
   text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.modal-text-content::-webkit-scrollbar { display: none; }
 
 .close-modal-btn {
   position: absolute;
@@ -438,7 +436,6 @@ body {
 }
 
 @media (max-width: 600px) {
-  /* Мобильная версия */
   .pockets-grid { grid-template-columns: 1fr; max-width: 350px; }
   .pocket { height: 480px; }
   .back-img-thumb { height: 260px; }
@@ -467,7 +464,7 @@ body {
 
 <section class="pockets-section">
   <div class="section-head">
-    <h2>Твои сюрпризы</h2>
+    <h2>Для тебя с любовью</h2>
     <p>Нажми на карточку, чтобы открыть её</p>
   </div>
   <div class="pockets-grid" id="pockets-grid"></div>
@@ -477,7 +474,6 @@ body {
   <button class="fw-btn" onclick="launchFireworks()">Запустить фейерверк</button>
 </section>
 
-<!-- МОДАЛЬНОЕ ОКНО С ЗУМОМ И ПАНОРАМИРОВАНИЕМ -->
 <div class="modal-overlay hidden" id="modal" onclick="if(event.target===this) closeModal()">
   <div class="modal-box" id="modal-box">
     <button class="close-modal-btn" onclick="closeModal()">✕</button>
@@ -501,7 +497,7 @@ const pockets = [
     musicName: 'Песня для королевы'
   },
   {
-    label: 'Самая вкусная кухня',
+    label: 'Осторожно, здесь всегда очень вкусно!',
     c1: '#ffd93d', c2: '#ff8c42',
     msg: 'Ты умеешь кормить так, что человек чувствует не просто вкус, а заботу. Рядом с тобой всегда тепло, щедро и по-домашнему.',
     photoUrl: 'image2.jpg'
@@ -552,7 +548,6 @@ pockets.forEach((p, i) => {
   el.style.setProperty('--c1', p.c1);
   el.style.setProperty('--c2', p.c2);
   
-  // Условие для центрирования карточек без фото
   const wrapperClass = !p.photoUrl ? 'back-content-wrapper centered-text' : 'back-content-wrapper';
 
   el.innerHTML = `
@@ -577,7 +572,6 @@ pockets.forEach((p, i) => {
 const audioStore = {};
 let activeAudio = null;
 
-// ПЕРЕМЕННЫЕ ДЛЯ ЗУМА И ПАНОРАМИРОВАНИЯ
 let currentScale = 1;
 let startDist = 0;
 let posX = 0;
@@ -595,7 +589,7 @@ function updateTransform() {
 }
 
 function resetZoom() {
-  modalImg.style.transition = 'transform 0.2s ease-out'; // Плавный сброс
+  modalImg.style.transition = 'transform 0.2s ease-out';
   currentScale = 1; posX = 0; posY = 0;
   updateTransform();
 }
@@ -604,8 +598,6 @@ function openModal(i) {
   const p = pockets[i];
   document.getElementById('modal-title').textContent = p.label;
   document.getElementById('modal-text').textContent = p.msg;
-  
-  // Делаем модальное окно цветным в тон карточке
   modalBox.style.background = `linear-gradient(135deg, ${p.c1}, ${p.c2})`;
   
   if (p.photoUrl) {
@@ -637,9 +629,8 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-// ПАНОРАМИРОВАНИЕ И ЗУМ БЕЗ МЕРЦАНИЯ
 zoomCont.addEventListener('touchstart', (e) => {
-  modalImg.style.transition = 'none'; // УБИРАЕМ АНИМАЦИЮ ВО ВРЕМЯ КАСАНИЯ
+  modalImg.style.transition = 'none'; 
   if (e.touches.length === 2) {
     isDragging = false;
     startDist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
@@ -670,7 +661,6 @@ zoomCont.addEventListener('touchmove', (e) => {
 
 zoomCont.addEventListener('touchend', () => {
   isDragging = false;
-  // Можно вернуть transition, если зум сброшен до 1
   if (currentScale === 1) {
       modalImg.style.transition = 'transform 0.2s ease-out';
   }
@@ -694,13 +684,16 @@ function toggleMusic(src, i) {
   }
 }
 
-/* CONFETTI */
+/* CONFETTI & FIREWORKS */
 const CC = document.getElementById('confetti-canvas');
 const cc = CC.getContext('2d');
 let pieces = [];
 const COLS = ['#ff6b9d','#c44dff','#ffd93d','#4dd9ff','#ff8c42','#fff'];
 
-function resize() { CC.width = window.innerWidth; CC.height = window.innerHeight; }
+function resize() { 
+  CC.width = window.innerWidth; 
+  CC.height = window.innerHeight; 
+}
 window.onresize = resize; resize();
 
 function mkP(x, y, b) {
@@ -732,7 +725,6 @@ function launchFireworks() {
     cc.fillStyle = p.col; cc.globalAlpha = p.op;
     cc.beginPath(); cc.arc(p.x, p.y, p.r/2, 0, 7); cc.fill();
   });
-  if(pieces.length < 150 && Math.random() < 0.3) pieces.push(mkP());
   requestAnimationFrame(anim);
 })();
 
