@@ -164,7 +164,6 @@ body {
   text-transform: uppercase;
 }
 
-/* Исправлен цвет текста под заголовком */
 .section-head p {
   margin-top: .5rem;
   color: rgba(255,255,255,.6);
@@ -182,7 +181,7 @@ body {
 
 .pocket {
   perspective: 1500px;
-  height: 420px;
+  height: 350px; /* Вернули нормальную высоту для десктопа */
   cursor: pointer;
   -webkit-perspective: 1500px;
 }
@@ -231,16 +230,16 @@ body {
 }
 
 .pocket-symbol {
-  width: 60px; height: 60px;
+  width: 55px; height: 55px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--c1), var(--c2));
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
 .pocket-label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 800;
   text-transform: uppercase;
   color: #fff;
@@ -262,48 +261,53 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1.2rem;
+  padding: 1rem;
 }
 
-/* Класс для центрирования карточек без фото */
 .back-content-wrapper.centered-text {
   justify-content: center;
   text-align: center;
+  padding: 1.5rem;
 }
 
 .back-img-thumb {
   width: 100%;
-  height: 200px;
+  height: 150px; /* Уменьшили для десктопа */
   object-fit: cover;
   object-position: top center;
-  border-radius: 16px 16px 4px 4px;
-  border-bottom: 2px solid rgba(255,255,255,0.1);
+  border-radius: 18px 18px 4px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   flex-shrink: 0;
-  cursor: zoom-in;
+  cursor: pointer; /* Убрали 'лапку' зума на обычный курсор */
 }
 
 .back-msg {
-  padding: 1rem 1.2rem;
-  font-size: 0.85rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  line-height: 1.6;
+  line-height: 1.5;
   flex-grow: 1;
   overflow-y: auto;
   white-space: pre-line;
+  /* Убираем видимые стрелочки прокрутки */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
 }
+.back-msg::-webkit-scrollbar { display: none; }
 
 .open-btn {
-  width: calc(100% - 2.4rem);
-  margin: 0 1.2rem 1.2rem;
-  padding: .7rem;
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 12px;
+  width: calc(100% - 2rem);
+  margin: 0 1rem 1rem;
+  padding: .6rem;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
   color: #fff;
   font-weight: 700;
-  font-size: .75rem;
+  font-size: .7rem;
   text-transform: uppercase;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .fw-section {
@@ -329,7 +333,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.95);
+  background: rgba(0,0,0,.96);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -350,7 +354,7 @@ body {
   width: 100%;
   position: relative;
   max-height: 90vh;
-  overflow: hidden; /* Важно для панорамирования */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -366,7 +370,6 @@ body {
   touch-action: none;
   cursor: grab;
 }
-
 .zoom-container:active { cursor: grabbing; }
 
 .zoom-container img {
@@ -375,6 +378,16 @@ body {
   transform-origin: center;
   transition: transform 0.1s ease-out;
   will-change: transform;
+}
+
+.modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--yellow);
+  text-transform: uppercase;
 }
 
 .modal-text-content {
@@ -398,9 +411,7 @@ body {
   font-size: 1.3rem;
   cursor: pointer;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
 }
 
 @keyframes rise-in {
@@ -423,6 +434,7 @@ body {
 }
 
 @media (max-width: 600px) {
+  /* Мобильная версия - Идеальная */
   .pockets-grid { grid-template-columns: 1fr; max-width: 350px; }
   .pocket { height: 480px; }
   .back-img-thumb { height: 260px; }
@@ -461,16 +473,13 @@ body {
   <button class="fw-btn" onclick="launchFireworks()">Запустить фейерверк</button>
 </section>
 
-<!-- МОДАЛЬНОЕ ОКНО С ЗУМОМ И ПАНОРАМИРОВАНИЕМ -->
 <div class="modal-overlay hidden" id="modal" onclick="if(event.target===this) closeModal()">
   <div class="modal-box">
     <button class="close-modal-btn" onclick="closeModal()">✕</button>
     <div class="modal-title" id="modal-title"></div>
-    
     <div class="zoom-container" id="zoom-container">
       <img src="" alt="" id="modal-img">
     </div>
-    
     <div id="modal-text" class="modal-text-content"></div>
     <div id="modal-music" style="margin-top:20px;"></div>
   </div>
@@ -538,7 +547,6 @@ pockets.forEach((p, i) => {
   el.style.setProperty('--c1', p.c1);
   el.style.setProperty('--c2', p.c2);
   
-  // Условие для центрирования карточек без фото
   const wrapperClass = !p.photoUrl ? 'back-content-wrapper centered-text' : 'back-content-wrapper';
 
   el.innerHTML = `
@@ -580,9 +588,7 @@ function updateTransform() {
 }
 
 function resetZoom() {
-  currentScale = 1;
-  posX = 0;
-  posY = 0;
+  currentScale = 1; posX = 0; posY = 0;
   updateTransform();
 }
 
@@ -620,7 +626,7 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-// ОБРАБОТКА ТАЧ-СОБЫТИЙ (ЗУМ + ПАНОРАМА)
+// ПАНОРАМИРОВАНИЕ И ЗУМ
 zoomCont.addEventListener('touchstart', (e) => {
   if (e.touches.length === 2) {
     isDragging = false;
@@ -633,44 +639,22 @@ zoomCont.addEventListener('touchstart', (e) => {
 });
 
 zoomCont.addEventListener('touchmove', (e) => {
-  e.preventDefault();
   if (e.touches.length === 2) {
+    e.preventDefault();
     const dist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
     const delta = dist / startDist;
-    const newScale = Math.min(Math.max(1, currentScale * delta), 4);
-    if (newScale !== currentScale) {
-        currentScale = newScale;
-        startDist = dist;
-        updateTransform();
-    }
-  } else if (e.touches.length === 1 && isDragging) {
-    const dx = e.touches[0].pageX - lastX;
-    const dy = e.touches[0].pageY - lastY;
-    
-    // Позволяем двигать только если картинка увеличена
-    if (currentScale > 1) {
-      posX += dx;
-      posY += dy;
-      updateTransform();
-    }
-    
+    currentScale = Math.min(Math.max(1, currentScale * delta), 4);
+    startDist = dist;
+    updateTransform();
+  } else if (e.touches.length === 1 && isDragging && currentScale > 1) {
+    e.preventDefault();
+    posX += e.touches[0].pageX - lastX;
+    posY += e.touches[0].pageY - lastY;
     lastX = e.touches[0].pageX;
     lastY = e.touches[0].pageY;
+    updateTransform();
   }
 }, { passive: false });
-
-zoomCont.addEventListener('touchend', () => {
-  isDragging = false;
-});
-
-// ЗУМ КОЛЕСИКОМ
-zoomCont.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? 0.9 : 1.1;
-  currentScale = Math.min(Math.max(1, currentScale * delta), 4);
-  if (currentScale === 1) { posX = 0; posY = 0; }
-  updateTransform();
-});
 
 function toggleMusic(src, i) {
   if (!audioStore[i]) audioStore[i] = new Audio(src);
@@ -690,16 +674,13 @@ function toggleMusic(src, i) {
   }
 }
 
-/* CONFETTI & FIREWORKS */
+/* CONFETTI */
 const CC = document.getElementById('confetti-canvas');
 const cc = CC.getContext('2d');
 let pieces = [];
 const COLS = ['#ff6b9d','#c44dff','#ffd93d','#4dd9ff','#ff8c42','#fff'];
 
-function resize() { 
-  CC.width = window.innerWidth; 
-  CC.height = window.innerHeight; 
-}
+function resize() { CC.width = window.innerWidth; CC.height = window.innerHeight; }
 window.onresize = resize; resize();
 
 function mkP(x, y, b) {
@@ -735,7 +716,7 @@ function launchFireworks() {
   requestAnimationFrame(anim);
 })();
 
-/* BALLOONS JS */
+/* BALLOONS */
 const SVGNS = 'http://www.w3.org/2000/svg';
 const bSvg = document.getElementById('balloons-svg');
 const palList = [['#ff6b9d','#c44dff'],['#ffd93d','#ff8c42'],['#4dd9ff','#6bcb77'],['#c44dff','#4dd9ff'],['#6bcb77','#ffd93d'],['#ff8c42','#ff6b9d']];
